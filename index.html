@@ -8,18 +8,47 @@
 </head>
 <body>
     <div class="game-wrapper">
-        <h1 class="game-title">Water Drop</h1>
-        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
-        <div class="score-panel">
+        <!-- Game Header -->
+        <header class="game-header">
+            <h1 class="game-title">Water Drop</h1>
+            <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        </header>
+
+        <!-- Score Panel -->
+        <section class="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
             <button id="start-btn">Start Game</button>
-        </div>
-        
-        <div id="game-container">
-            <div id="message-display"></div>
-        </div>
+        </section>
+
+        <!-- Game Container -->
+        <main id="game-container">
+            <div id="message-display" class="message-display"></div>
+        </main>
     </div>
-    
-    <script src="script.js"></script>
-</body>
-</html>
+    <!-- Accessibility Features -->
+        <div aria-live="polite" aria-atomic="true" style="position: absolute; left: -9999px;" id="live-region">
+          <!-- Screen readers will announce updates here -->
+        </div>
+        </body>
+    </html>
+    <script>
+      // Adding keyboard accessibility for the Start Game button
+      document.getElementById('start-btn').setAttribute('role', 'button');
+      document.getElementById('start-btn').setAttribute('aria-label', 'Start the game');
+      document.getElementById('start-btn').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            this.click();
+          }
+        });
+      </script>
+
+      // Announce score updates for screen readers
+      const scoreElement = document.getElementById('score');
+      const liveRegion = document.getElementById('live-region');
+      let currentScore = 0;
+
+      function updateScore(newScore) {
+        currentScore = newScore;
+        scoreElement.textContent = currentScore;
+        liveRegion.textContent = `Score updated to ${currentScore}`;
+      }

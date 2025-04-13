@@ -13,7 +13,35 @@ Secondary Colors:
 - Pink:       #F16061
 
 */
+/* Hover and click effects for buttons */
+#start-btn:hover {
+  background-color: #FFD700; /* Brighter yellow on hover */
+  transition: background-color 0.3s ease;
+}
 
+#start-btn:active {
+  transform: scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Click effect for water drops */
+.water-drop:active {
+  transform: scale(0.8); /* Shrink slightly on click */
+  opacity: 0.7; /* Reduce opacity to indicate interaction */
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Styling for clicked drops to disappear */
+.water-drop.clicked {
+  animation: disappear 0.5s forwards;
+}
+
+@keyframes disappear {
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
 * {
     margin: 0;
     padding: 0;
@@ -60,7 +88,7 @@ body {
 
 #start-btn {
     padding: 8px 16px;
-    background-color: #4CAF50;
+    background-color: #FFC907;
     color: white;
     border: none;
     border-radius: 4px;
@@ -69,7 +97,7 @@ body {
 }
 
 #start-btn:hover {
-    background-color: #45a049;
+    background-color: #FED8c1;
 }
 
 .score {
@@ -79,19 +107,27 @@ body {
 }
 
 .water-drop {
-    position: absolute;
-    width: 40px;  /* increased from 30px */
-    height: 40px; /* increased from 30px */
-    background-color: #0099ff;
-    border-radius: 50% 50% 50% 50%;
-    animation: dropFall linear forwards;
-    transform-origin: center;
-    cursor: pointer;
-    pointer-events: auto;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  animation: dropFall linear forwards;
+  transform-origin: center;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+@keyframes dropFall {
+  from {
+      transform: translateY(-20px);
+  }
+  to {
+      transform: translateY(600px); /* Adjust based on game container height */
+  }
 }
 
 .bad-drop {
-    background-color: #ff4444;
+    background-color: #BF6C46;
 }
 
 .game-title {
@@ -101,23 +137,76 @@ body {
     margin-bottom: 5px;  /* reduced from 20px */
     text-align: center;
 }
+/* Styling for good and bad water drops */
+.good-drop {
+  background-color: #FFC907; /* Yellow for good drops */
+  box-shadow: 0 4px 8px rgba(255, 201, 7, 0.5);
+}
 
+.bad-drop {
+  background-color: #8B4513; /* Brown for bad drops */
+  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.5);
+}
+
+/* Additional button styling */
+#start-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect for water drops */
+.water-drop:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
 .game-tagline {
-    color: #666;
+    color: #CBCCD1;
     font-size: 18px;
     margin-bottom: 20px;
     text-align: center;
 }
+@media (max-width: 600px) {
+  #game-container {
+    width: 90vw;
+    height: 60vh;
+  }
 
-@keyframes dropFall {
-    from {
-        transform: translateY(-20px);
-    }
-    to {
-        transform: translateY(600px);
-    }
+  .water-drop {
+    width: 30px;
+    height: 30px;
+  }
+
+  .score {
+    font-size: 20px;
+  }
+
+  .game-title {
+    font-size: 36px;
+  }
+
+  .game-tagline {
+    font-size: 16px;
+  }
+
+  #start-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+/* Removed duplicate @keyframes dropFall */
+
+/* Dynamic animation speed for water drops */
+.water-drop {
+  animation-duration: 3s; /* Default speed */
 }
 
+.water-drop.fast {
+  animation-duration: 2s; /* Faster speed */
+}
+
+.water-drop.faster {
+  animation-duration: 1s; /* Even faster speed */
+}
 @media (max-width: 850px) {
     .game-wrapper, .score-panel, #game-container {
         width: 95vw;
