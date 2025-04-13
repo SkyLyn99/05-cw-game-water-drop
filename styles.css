@@ -176,6 +176,18 @@ body {
     height: 30px;
   }
 
+  .jerry-can {
+    position: absolute;
+    bottom: 20px; /* Start near the bottom of the game container */
+    left: 50%; /* Center horizontally */
+    width: 60px;
+    height: 80px;
+    background-color: #FFC907; /* Charity:water yellow */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateX(-50%); /* Center the jerry can */
+    pointer-events: none; /* Prevent mouse events on the jerry can */
+}
   .score {
     font-size: 20px;
   }

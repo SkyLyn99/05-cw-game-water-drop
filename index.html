@@ -39,16 +39,10 @@
         if (event.key === 'Enter' || event.key === ' ') {
             this.click();
           }
-        });
-      </script>
-
-      // Announce score updates for screen readers
-      const scoreElement = document.getElementById('score');
-      const liveRegion = document.getElementById('live-region');
-      let currentScore = 0;
-
-      function updateScore(newScore) {
-        currentScore = newScore;
-        scoreElement.textContent = currentScore;
-        liveRegion.textContent = `Score updated to ${currentScore}`;
-      }
+            });
+    
+            </script>
+            <script src="script.js"></script>
+        </body>
+        </html>
+        

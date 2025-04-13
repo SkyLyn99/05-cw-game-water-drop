@@ -69,16 +69,27 @@ function stopGame() {
   } else {
     console.warn('Feedback element not found.');
   }
-
+  // Ensure the "Start Game" button is properly linked
+  document.getElementById('start-btn').addEventListener('click', startGame);
 // Game initialization function
 function startGame() {
   if (gameActive) return; // Prevent multiple game instances
 
   gameActive = true; // Set game state to active
-  document.getElementById('start-btn').addEventListener('click', startGame);
+  document.getElementById('start-btn').disabled = true; // Disable the start button
 
   // Start creating drops every 1000ms (1 second)
   gameInterval = setInterval(createDrop, 1000);
+}
+// Announce score updates for screen readers
+const scoreElement = document.getElementById('score');
+const liveRegion = document.getElementById('live-region');
+let currentScore = 0;
+
+function updateScore(newScore) {
+  currentScore = newScore;
+  scoreElement.textContent = `Score: ${currentScore}`;
+  liveRegion.textContent = `Score updated to ${currentScore}`;
 }
     
     // Set up initial game state
@@ -102,7 +113,114 @@ function updateScoreWithFeedback(points) {
       displayFeedback('Avoid bad drops!', 'negative');
   }
 }
+// Function to create the jerry can element
+function createJerryCan() {
+  const jerryCan = document.createElement('div');
+  jerryCan.id = 'jerry-can';
+  jerryCan.className = 'jerry-can';
+  // Collision logic is handled in the createDrop function
+  // Position the jerry can at the bottom center of the game container
+  const gameContainer = document.getElementById('game-container');
+  jerryCan.style.left = `${(gameContainer.offsetWidth / 2) - 25}px`; // Center horizontally
+  jerryCan.style.bottom = '10px'; // Position slightly above the bottom
+  
+  // Add the jerry can to the game container
+  gameContainer.appendChild(jerryCan);
+  
+  // Enable dragging of the jerry can
+  enableJerryCanDrag(jerryCan);
+}
+// Make the Jerry Can Follow the Mouse
+document.addEventListener('mousemove', (event) => {
+  const gameContainer = document.getElementById('game-container');
+  const jerryCan = document.getElementById('jerry-can');
+  
+  if (jerryCan && gameContainer) {
+    const gameRect = gameContainer.getBoundingClientRect();
+    let newLeft = event.clientX - gameRect.left - (jerryCan.offsetWidth / 2);
 
+    // Ensure the jerry can stays within the game container
+    newLeft = Math.max(0, Math.min(newLeft, gameRect.width - jerryCan.offsetWidth));
+    jerryCan.style.left = `${newLeft}px`;
+  }
+});
+// Function to enable dragging of the jerry can
+function enableJerryCanDrag(jerryCan) {
+  let isDragging = false;
+  let offsetX = 0;
+
+  jerryCan.addEventListener('mousedown', (event) => {
+    isDragging = true;
+    offsetX = event.clientX - jerryCan.getBoundingClientRect().left;
+  });
+
+  document.addEventListener('mousemove', (event) => {
+    if (isDragging) {
+      const gameContainer = document.getElementById('game-container');
+      const gameRect = gameContainer.getBoundingClientRect();
+      let newLeft = event.clientX - gameRect.left - offsetX;
+
+      // Ensure the jerry can stays within the game container
+      newLeft = Math.max(0, Math.min(newLeft, gameRect.width - jerryCan.offsetWidth));
+      jerryCan.style.left = `${newLeft}px`;
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+}
+
+// Modify the createDrop function to interact with the jerry can
+function createDrop() {
+  const drop = document.createElement('div');
+  
+  // Randomly determine if this drop is good or bad (20% chance of bad)
+  const isBadDrop = Math.random() < 0.2;
+  drop.className = isBadDrop ? 'water-drop bad-drop' : 'water-drop good-drop';
+  
+  // Create random size variation for visual interest
+  const scale = 0.8 + Math.random() * 0.7; // Results in 80% to 150% of original size
+  drop.style.transform = `scale(${scale})`;
+  
+  // Position drop randomly along the width of the game container
+  const gameWidth = document.getElementById('game-container').offsetWidth;
+  const randomX = Math.random() * (gameWidth - 40); // Ensure drops stay within bounds
+  drop.style.left = `${randomX}px`;
+  
+  // Set drop animation speed
+  drop.style.animationDuration = '4s'; // Default fall duration
+  
+  // Add drop to game container
+  document.getElementById('game-container').appendChild(drop);
+  
+  // Check for collision with the jerry can
+  drop.addEventListener('animationend', () => {
+    const jerryCan = document.querySelector('.jerry-can');
+    if (jerryCan) {
+      const dropRect = drop.getBoundingClientRect();
+      const jerryCanRect = jerryCan.getBoundingClientRect();
+      
+      // Check if the drop intersects with the jerry can
+      if (
+        dropRect.bottom >= jerryCanRect.top &&
+        dropRect.top <= jerryCanRect.bottom &&
+        dropRect.left <= jerryCanRect.right &&
+        dropRect.right >= jerryCanRect.left
+      ) {
+        if (!isBadDrop) {
+          updateScoreWithFeedback(15); // Bonus points for collecting with the jerry can
+        }
+      }
+    }
+    drop.remove();
+  });
+}
+
+// Add the jerry can to the game when it starts
+document.getElementById('start-btn').addEventListener('click', () => {
+  createJerryCan();
+});
 // Modify the event listener for water drop clicks to use the new feedback function
 document.getElementById('game-container').addEventListener('click', (event) => {
   if (event.target.classList.contains('water-drop')) {
@@ -143,7 +261,7 @@ function createDrop() {
   document.getElementById('game-container').appendChild(drop);
   
   // Remove drop if it reaches the bottom without being clicked
-  drop.addEventListener('animationend', () => {
-      drop.remove();
+    drop.addEventListener('animationend', () => {
+        drop.remove();
     });
   }
