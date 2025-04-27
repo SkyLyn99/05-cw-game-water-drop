@@ -1,16 +1,16 @@
-/* Charity: water Brand Colors
+/* Charity: water Brand Colors */
 
-Primary Colors:
-- Yellow:     #FFC907
-- Blue:       #2E9DF7
+/* Primary Colors: */
+#FFC907; /* Yellow */
+#2E9DF7; /* Blue */
 
-Secondary Colors:
-- Light Blue: #8BD1CB
-- Green:      #4FCB53
-- Orange:     #FF902A
-- Red:        #F5402C
-- Dark Green: #159A48
-- Pink:       #F16061
+/* Secondary Colors: */
+#8BD1CB; /* Light Blue */
+#4FCB53; /* Green */
+#FF902A; /* Orange */
+#F5402C; /* Red */
+#159A48; /* Dark Green */
+#F16061; /* Pink */
 
 /* Hover and click effects for buttons */
 #start-btn:hover {
@@ -41,101 +41,29 @@ Secondary Colors:
     opacity: 0;
   }
 }
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+/* Animation for falling water drops */
+@keyframes dropFall {
+  from {
+    transform: translateY(-20px);  /* Start just above the game container */
+  }
+  to {
+    transform: translateY(600px);  /* Move to the bottom of the game container */
+  }
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-}
-
-.game-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.score-panel {
-    display: flex;
-    justify-content: space-between;  /* Space between score and button */
-    align-items: center;
-    width: 800px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-#game-container {
-    width: 800px;
-    height: 600px;
-    background-color: #e6f7ff;
-    border: 2px solid #333;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-}
-
-#start-btn {
-    padding: 8px 16px;
-    background-color: #FFC907;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#start-btn:hover {
-    background-color: #FED8c1;
-}
-
-.score {
-    flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
-    font-size: 24px;
-    font-weight: bold;
-}
-
+/* Styling for the water drops */
 .water-drop {
   position: absolute;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  animation: dropFall linear forwards;
+  animation: dropFall linear forwards;  /* Apply the dropFall animation */
   transform-origin: center;
   cursor: pointer;
   pointer-events: auto;
 }
 
-@keyframes dropFall {
-  from {
-      transform: translateY(-20px);
-  }
-  to {
-      transform: translateY(600px); /* Adjust based on game container height */
-  }
-}
-
-.bad-drop {
-    background-color: #BF6C46;
-}
-
-.game-title {
-    color: #131313;
-    font-size: 48px;
-    margin-top: 0;
-    margin-bottom: 5px;  /* reduced from 20px */
-    text-align: center;
-}
-/* Styling for good and bad water drops */
 .good-drop {
   background-color: #FFC907; /* Yellow for good drops */
   box-shadow: 0 4px 8px rgba(255, 201, 7, 0.5);
@@ -146,23 +74,117 @@ body {
   box-shadow: 0 4px 8px rgba(139, 69, 19, 0.5);
 }
 
-/* Additional button styling */
-#start-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Hover effect for water drops */
-.water-drop:hover {
-  transform: scale(1.1);
-  transition: transform 0.2s ease-in-out;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
 }
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.score-panel {
+  display: flex;
+  justify-content: space-between;  /* Space between score and button */
+  align-items: center;
+  width: 800px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#game-container {
+  width: 800px;
+  height: 600px;
+  background-color: #e6f7ff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+#start-btn {
+  padding: 8px 16px;
+  background-color: #FFC907;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#start-btn:hover {
+  background-color: #FED8c1;
+}
+
+.score {
+  flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.jerry-can {
+  position: absolute;
+  bottom: 20px; /* Start near the bottom of the game container */
+  left: 50%; /* Center horizontally */
+  width: 60px;
+  height: 80px;
+  background-color: #FFC907; /* Charity:water yellow */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateX(-50%); /* Center the jerry can */
+  pointer-events: none; /* Prevent mouse events on the jerry can */
+}
+
+.score-feedback {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  animation: pop-up 1s ease-out;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes pop-up {
+  0% { opacity: 0; transform: scale(0.5) translate(-50%, -50%); }
+  50% { opacity: 1; transform: scale(1.2) translate(-50%, -50%); }
+  100% { opacity: 0; transform: scale(0.8) translate(-50%, -50%); }
+}
+
+.game-title {
+  color: #131313;
+  font-size: 48px;
+  margin-top: 0;
+  margin-bottom: 5px;  /* reduced from 20px */
+  text-align: center;
+}
+
 .game-tagline {
-    color: #CBCCD1;
-    font-size: 18px;
-    margin-bottom: 20px;
-    text-align: center;
+  color: #CBCCD1;
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
 }
+
+/* Media query for smaller screens */
 @media (max-width: 600px) {
   #game-container {
     width: 90vw;
@@ -174,21 +196,11 @@ body {
     height: 30px;
   }
 
-  .jerry-can {
-    position: absolute;
-    bottom: 20px; /* Start near the bottom of the game container */
-    left: 50%; /* Center horizontally */
-    width: 60px;
-    height: 80px;
-    background-color: #FFC907; /* Charity:water yellow */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateX(-50%); /* Center the jerry can */
-    pointer-events: none; /* Prevent mouse events on the jerry can */
-}
-  .score {
-    font-size: 20px;
-  }
+  .score-panel {
+    flex-direction: column; /* Stack score and button vertically */
+    align-items: center; /* Center align items */
+    width: 90vw; /* Full width on small screens */
+  }  
 
   .game-title {
     font-size: 36px;
