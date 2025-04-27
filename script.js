@@ -56,12 +56,6 @@ function createDrop() {
   });
 }
 
-// Function to update the score with feedback
-function updateScoreWithFeedback(points) {
-  const scoreElement = document.getElementById('score');
-  let currentScore = parseInt(scoreElement.textContent, 10) || 0;
-  currentScore += points;
-  scoreElement.textContent = currentScore;
 
   // Provide visual feedback
   const feedback = document.createElement('div');

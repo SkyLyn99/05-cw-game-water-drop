@@ -12,7 +12,6 @@ Secondary Colors:
 - Dark Green: #159A48
 - Pink:       #F16061
 
-*/
 /* Hover and click effects for buttons */
 #start-btn:hover {
   background-color: #FFD700; /* Brighter yellow on hover */
@@ -84,7 +83,6 @@ body {
     position: relative;
     overflow: hidden;
 }
-
 
 #start-btn {
     padding: 8px 16px;
@@ -205,7 +203,6 @@ body {
     padding: 6px 12px;
   }
 }
-/* Removed duplicate @keyframes dropFall */
 
 /* Dynamic animation speed for water drops */
 .water-drop {
@@ -218,13 +215,4 @@ body {
 
 .water-drop.faster {
   animation-duration: 1s; /* Even faster speed */
-}
-@media (max-width: 850px) {
-    .game-wrapper, .score-panel, #game-container {
-        width: 95vw;
-    }
-    
-    #game-container {
-        height: 70vh;
-    }
 }
